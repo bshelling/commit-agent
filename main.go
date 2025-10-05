@@ -111,7 +111,7 @@ func commitfile() {
 	}
 
 	ga := GitAgent{
-		SystemMsg: "You write git an expanded commit message from the message provided. Only return the subject on one line and message on the next",
+    SystemMsg: "You write git an expanded commit message from the message provided. Only return the subject on one line and message on the next. Don't annotate the with `Subject:` and `Message:`",
 		UserMsg:   scanner.Text(),
 	}
 
