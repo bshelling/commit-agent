@@ -111,7 +111,7 @@ func commitfile() {
 	}
 
 	ga := GitAgent{
-    SystemMsg: "You write git an expanded commit message from the message provided. Only return the subject on one line and message on the next. Don't annotate the with `Subject:` and `Message:`",
+		SystemMsg: "You write git an expanded commit message from the message provided. Only return the subject on one line and message on the next. Don't annotate the with `Subject:` and `Message:`",
 		UserMsg:   scanner.Text(),
 	}
 
@@ -147,7 +147,6 @@ func commitfile() {
 		fmt.Println("No content available")
 	}
 
-	fmt.Print(commitmsg)
 
 	cmdout, cmderr := exec.Command("git", "commit", "-m", fmt.Sprint(commitmsg)).Output()
 	if cmderr != nil {
@@ -157,7 +156,9 @@ func commitfile() {
 	}
 	fmt.Println("")
 	cmdOutput := bytes.NewBuffer(cmdout)
+  fmt.Println("")
 	fmt.Println(cmdOutput.String())
+  fmt.Println("")
 
 }
 
