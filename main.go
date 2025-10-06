@@ -62,7 +62,8 @@ func (ga GitAgent) Run() []byte {
 	systemPrompt := []SystemPrompt{
 		{Text: ga.SystemMsg},
 	}
-	// Message
+
+  // Message
 	messages := []Message{
 		{Role: "user", Content: []Content{{Text: ga.UserMsg}}},
 	}
@@ -79,9 +80,7 @@ func (ga GitAgent) Run() []byte {
 	}
 	brclient := bedrockruntime.NewFromConfig(cfg)
 
-	//parsedReq := bytes.NewBuffer(body)
-	//fmt.Println(parsedReq.String())
-
+	// Invoke Model
 	modelId := "amazon.nova-lite-v1:0"
 	contentType := "application/json"
 	modelresponse, err := brclient.InvokeModel(ctx, &bedrockruntime.InvokeModelInput{
@@ -101,7 +100,7 @@ func commitfile() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("")
-	fmt.Print("Hi! What would you like to say? ")
+	fmt.Print("commit message: ")
 	for scanner.Scan() {
 		line := scanner.Text()
 		if line == fmt.Sprintf("%s", line) {
@@ -147,7 +146,6 @@ func commitfile() {
 		fmt.Println("No content available")
 	}
 
-
 	cmdout, cmderr := exec.Command("git", "commit", "-m", fmt.Sprint(commitmsg)).Output()
 	if cmderr != nil {
 		fmt.Println("----------------------------------------------")
@@ -156,9 +154,16 @@ func commitfile() {
 	}
 	fmt.Println("")
 	cmdOutput := bytes.NewBuffer(cmdout)
-  fmt.Println("")
+	fmt.Println("")
 	fmt.Println(cmdOutput.String())
-  fmt.Println("")
+	fmt.Println("")
+  
+	cmdout, cmderr := exec.Command("git","push").Output()
+	if cmderr != nil {
+		fmt.Println("----------------------------------------------")
+		fmt.Println("Git Push - Something went wrong please try again")
+		fmt.Println("----------------------------------------------")
+	}
 
 }
 
